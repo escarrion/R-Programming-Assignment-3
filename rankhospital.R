@@ -29,9 +29,13 @@ rankhospital <- function(state, outcome, num = 'best'){
     for(name in names(valid_outcomes)){
         
         if(outcome == name){
-            ordered_data <- state_data[order(state_data[valid_outcomes[name]], state_data$Name),]
+            state_data.2col <- state_data[, c(2,valid_outcomes[name])]
             
-            ranking <- rank(ordered_data[,valid_outcomes[name]],ties.method='first')
+            state_data.complete <- state_data.2col[complete.cases(state_data.2col),]
+            
+            ordered_data <- state_data.complete[order(as.numeric(state_data.complete[,2]), state_data.complete[1]),]
+            
+            ranking <- 1:nrow(ordered_data)
             ordered_data$Rank <- ranking
             
         }    
